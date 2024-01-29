@@ -88,7 +88,7 @@ const url = 'https://cryptocurrency-news2.p.rapidapi.com/v1/coindesk';
 const options = {
     method: 'GET',
     headers: {
-        'X-RapidAPI-Key': napiKey,
+        'X-RapidAPI-Key': process.env.APP_API_KEY,
         'X-RapidAPI-Host': 'cryptocurrency-news2.p.rapidapi.com'
     }
 };
