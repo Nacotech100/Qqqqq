@@ -82,12 +82,13 @@ display: inline-block;
     <script type="module">
         // Your JavaScript code here
 
-
+const napiKey = process.env.APP_API_KEY;
+        
 const url = 'https://cryptocurrency-news2.p.rapidapi.com/v1/coindesk';
 const options = {
     method: 'GET',
     headers: {
-        'X-RapidAPI-Key': '73bee91a44msh3454e47e5ea0427p1d16e8jsn96f63c852a5e',
+        'X-RapidAPI-Key': napiKey,
         'X-RapidAPI-Host': 'cryptocurrency-news2.p.rapidapi.com'
     }
 };
