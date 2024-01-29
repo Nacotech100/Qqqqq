@@ -80,53 +80,52 @@ display: inline-block;
 <hr >
 
     <script type="module">
-        // Your JavaScript code here
+    // Your JavaScript code here
 
-const napiKey = process.env.APP_API_KEY;
-        
-const url = 'https://cryptocurrency-news2.p.rapidapi.com/v1/coindesk';
-const options = {
-    method: 'GET',
-    headers: {
-        'X-RapidAPI-Key': process.env.APP_API_KEY,
-        'X-RapidAPI-Host': 'cryptocurrency-news2.p.rapidapi.com'
+    async function fetchData() {
+        const napiKey = process.env.APP_API_KEY;
+
+        const url = 'https://cryptocurrency-news2.p.rapidapi.com/v1/coindesk';
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': napiKey,
+                'X-RapidAPI-Host': 'cryptocurrency-news2.p.rapidapi.com'
+            }
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json();
+            console.log(JSON.stringify(result, null, 2)); // Inspect the response structure
+
+            const newsContainer = document.querySelector('.news-container');
+
+            if (result.data && Array.isArray(result.data)) {
+                result.data.forEach(newsItem => {
+                    const newsDiv = document.createElement('div');
+                    newsDiv.classList.add('news-item');
+                    newsDiv.innerHTML = `
+                        <center>   
+                            <img src="${newsItem.thumbnail}" alt="${newsItem.title}"><br>
+                            <h2>${newsItem.title}</h2>
+                            <p>${newsItem.description}</p>
+                            <a href="${newsItem.url}" target="_blank">Read more</a>
+                        </center>
+                    `;
+                    newsContainer.appendChild(newsDiv);
+                });
+            } else {
+                console.error('Unexpected response format. Unable to display news.');
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
     }
-};
 
-try {
-    const response = await fetch(url, options);
-    const result = await response.json();
-    console.log(JSON.stringify(result, null, 2)); // Inspect the response structure
+    fetchData(); // Call the function
+</script>
 
-    const newsContainer = document.querySelector('.news-container');
-
-    if (result.data && Array.isArray(result.data)) {
-        result.data.forEach(newsItem => {
-            const newsDiv = document.createElement('div');
-            newsDiv.classList.add('news-item');
-            newsDiv.innerHTML = `
-<center>   
- <img src="${newsItem.thumbnail}" alt="${newsItem.title}"><br>
-
-                <h2>${newsItem.title}</h2>
-                <p>${newsItem.description}</p>
-               <a href="${newsItem.url}" target="_blank">Read more</a>
-  </center>
-            `;
-            newsContainer.appendChild(newsDiv);
-        });
-    } else {
-        console.error('Unexpected response format. Unable to display news.');
-    }
-
-} catch (error) {
-    console.error(error);
-}
-
-
-
-
-
-    </script>
 </body>
 </html>
